@@ -1,7 +1,7 @@
 
 #include "stdafx.h"
 #include <limits.h> 
-#include "gtest/gtest.h" 
+#include <gtest/gtest.h>
 #include "..\Calculation\Addition.h" 
 class AdditionTest : public ::testing::Test {
 

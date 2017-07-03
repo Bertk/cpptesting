@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <limits.h> 
-#include "gtest/gtest.h" 
+#include <gtest/gtest.h>
 #include "..\Calculation\Multiply.h" 
 
 class MultiplyTest : public ::testing::Test {
