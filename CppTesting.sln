@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RootFinderTest", "RootFinderTest\RootFinderTest.vcxproj", "{BBD38E01-93D0-429E-BC40-0B26C228E6FD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rootfinder", "RootFinder\RootFinder.vcxproj", "{E383D7AE-A66D-4D28-955A-B401EED86E0D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RootFinder", "RootFinder\RootFinder.vcxproj", "{E383D7AE-A66D-4D28-955A-B401EED86E0D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MotorController", "MotorController\MotorController.vcxproj", "{0E9CA226-0F18-4350-ADA6-792D2D13FF9E}"
 EndProject
