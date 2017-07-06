@@ -163,7 +163,17 @@
       <Project>{745fa090-c643-4eb9-8f7f-a0202e1b0391}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\vcpkg-export-20170706-185405.1.0.0\build\native\vcpkg-export-20170706-185405.targets" Condition="Exists('..\packages\vcpkg-export-20170706-185405.1.0.0\build\native\vcpkg-export-20170706-185405.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\vcpkg-export-20170706-185405.1.0.0\build\native\vcpkg-export-20170706-185405.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vcpkg-export-20170706-185405.1.0.0\build\native\vcpkg-export-20170706-185405.targets'))" />
+  </Target>
 </Project>

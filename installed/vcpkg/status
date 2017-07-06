@@ -1,7 +1,0 @@
-Package: gtest
-Version: 1.8
-Architecture: x86-windows
-Multi-Arch: same
-Description: GoogleTest and GoogleMock testing frameworks.
-Status: install ok installed
-
