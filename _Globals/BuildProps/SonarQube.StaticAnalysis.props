@@ -4,7 +4,7 @@
         <SQLogLevel>INFO</SQLogLevel>
         <SQCompiler>Visual C++</SQCompiler>
         <SQCompilerLog>$(SolutionDir)$(SolutionFileName).log</SQCompilerLog>
-        <SQCompilerFF>UTF-16</SQCompilerFF>
+        <SQCompilerFF>UTF-8</SQCompilerFF>
         <SQProjectFile>$(MSBuildProjectFullPath.Replace('\', '\\'))</SQProjectFile>
         <!-- regex for VS log file without parallel build parameter "/maxcpucount:xx" -->
         <SQCompilerRegEx>^(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[$(SQProjectFile)\]$</SQCompilerRegEx>
