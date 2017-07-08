@@ -12,8 +12,8 @@
         <SQPClintReport>pclint-report.xml</SQPClintReport>
         <SQVeraReport>vera-report.xml</SQVeraReport>
         <SQRatsReport>rats-report.xml</SQRatsReport>
-        <SQCoverageReport>MSCoverage.xml</SQCoverageReport>
-        <SQTestReport>MSTestResults.trx</SQTestReport>
+        <SQCoverageReport>$(SolutionDir)MSCoverage.xml</SQCoverageReport>
+        <SQTestReport>$(SolutionDir)MSTestResults.trx</SQTestReport>
         <SQTestPattern>.*[ui]Test.*|Test.*|.*Tests?</SQTestPattern>
         <SQSourceFiles>.cc,.cpp,.c,.cu</SQSourceFiles>
         <SQHeaderFiles>.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc</SQHeaderFiles>
