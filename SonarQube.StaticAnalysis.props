@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="UserMacros">
+        <SQLogLevel>INFO</SQLogLevel>
+        <SQCompiler>Visual C++</SQCompiler>
+        <SQCompilerLog>$(SolutionDir)$(SolutionName).log</SQCompilerLog>
+        <SQCompilerFF>UTF-16</SQCompilerFF>
+        <SQProjectFile>$(MSBuildProjectFullPath.Replace('\', '\\'))</SQProjectFile>
+        <!-- regex for VS log file without parallel build parameter "/maxcpucount:xx" -->
+        <SQCompilerRegEx>^(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[$(SQProjectFile)\]$</SQCompilerRegEx>
+        <SQCppCheckReport>cppcheck-report.xml</SQCppCheckReport>
+        <SQPClintReport>pclint-report.xml</SQPClintReport>
+        <SQVeraReport>vera-report.xml</SQVeraReport>
+        <SQRatsReport>rats-report.xml</SQRatsReport>
+        <SQCoverageReport>$(MSBuildProjectName).coveragexml</SQCoverageReport>
+        <SQTestReport>$(MSBuildProjectName).trx</SQTestReport>
+        <SQTestPattern>.*[ui]Test.*|Test.*|.*Tests?</SQTestPattern>
+        <SQSourceFiles>.cc,.cpp,.c,.cu</SQSourceFiles>
+        <SQHeaderFiles>.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc</SQHeaderFiles>
+        <SQForceInclude>sonar-defines.h</SQForceInclude>
+        <CppCheckFast>true</CppCheckFast>
+        <!--ToDo adapt tool installation path -->
+        <SQInclude>../../src/_Globals/Include</SQInclude>
+        <!--PC-lint does not support C++11 yet -->
+        <PCLINT_SETTING>..\..\src\_Globals\PC-lint\VS2012.lnt</PCLINT_SETTING>
+        <SQTools>C:\SCA-tools</SQTools>
+        <PCLINT_ROOT>$(SQTools)\PC-Lint9</PCLINT_ROOT>
+        <CPPCHECK_ROOT>$(SQTools)\Cppcheck</CPPCHECK_ROOT>
+        <VERA_ROOT>$(SQTools)\Vera++-1.3.0.win</VERA_ROOT>
+        <RATS_ROOT>$(SQTools)\rats-2.3</RATS_ROOT>
+    </PropertyGroup>
+<!--
+***********************************************************************************************
+SonarQube.StaticAnalysis.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+***********************************************************************************************
+-->
+    <!-- Specify the ItemGroups to be analyzed
+  <PropertyGroup Condition=" $(SonarQubeTempPath) != '' ">
+    <SQAnalysisFileItemTypes>Compile;Content;EmbeddedResource;None;ClCompile;ClInclude;CudaCompile;Page;TypeScriptCompile</SQAnalysisFileItemTypes>
+  </PropertyGroup>
+ -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>$(SolutionDir)_Globals\SCA\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>$(SolutionDir)_Globals\SCA\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+    <!-- Define the list of files for analysis -->
+    <ItemGroup>
+        <CppFiles Include="**/*.cpp" />
+        <CppFiles Include="**/*.c" />
+        <CppFiles Include="**/*.inl" />
+        <CppFiles Include="**/*.h" />
+        <CppFiles Include="**/*.hpp" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CppCheckInclude>CppCheck.includes</CppCheckInclude>
+        <LintMacros>mac-msc.cpp.lnt</LintMacros>
+        <LintProject>$(ProjectDir)$(ProjectName).lnt</LintProject>
+        <LintStdAfx>StdAfx.lph</LintStdAfx>
+    </PropertyGroup>     
+
+    <Target Name="PC-lint" Condition="'$(BuildCmd)'!='Clean' And Exists('$(PCLINT_ROOT)')" AfterTargets="Build" Outputs="$(ProjectDir)$(SQPClintReport)" DependsOnTargets="UnitTestCheck">
+        <PropertyGroup>
+           <LintDefines>-D$([System.String]::Copy(&quot;%(ClCompile.PreprocessorDefinitions)&quot;).TrimEnd(';').Replace(&quot;;&quot;,&quot; -D&quot;)) </LintDefines>
+        </PropertyGroup>
+        <Message Text="LintDefines = $(LintDefines)"/>
+        <!-- delete old report file -->
+        <Delete Files="$(ProjectDir)$(SQPClintReport)" Condition="'$(IsUnitTest)'=='False'" />
+        <!-- create a project lint file -->
+        <Delete Files="$(LintProject)" Condition="'$(IsUnitTest)'=='False'" />
+        <WriteLinesToFile Condition="'@(ClCompile)' != ''" File="$(LintProject)" Lines="%(ClCompile.RelativeDir)%(ClCompile.Filename)%(ClCompile.Extension)" Overwrite="false" Encoding="ASCII"/>
+        <!-- create lint defines from macros -->
+        <Exec Condition="'@(ClCompile)' != '' And '$(IsUnitTest)'=='False'" Command="cl.exe /EP /C /MD /GR /EHsc $(PCLINT_ROOT)\macros-msc.cpp &gt;&quot;$(LintMacros)&quot;" />
+        <!-- add include folders -->
+        <WriteLinesToFile Condition="'$(Include)' != '' And '$(IsUnitTest)'=='False'" File="$(LintMacros)" Lines="-i&quot;$(Include.TrimEnd(';').replace(`;`, `&quot;%0a-i&quot;`))&quot;" Overwrite="false" Encoding="ASCII"/>
+        <WriteLinesToFile Condition="'%(ClCompile.AdditionalIncludeDirectories)' != ''" File="$(LintMacros)" Lines="-i&quot;$([System.String]::Copy(&quot;%(ClCompile.AdditionalIncludeDirectories)&quot;).TrimEnd(';').Replace(&quot;;&quot;,&quot;%22%0a-i%22&quot;))&quot;" Overwrite="false" Encoding="ASCII"/>
+        <RemoveDupLine FilePath='$(LintMacros)' ContinueOnError='true'/>
+        <!-- execute pclint analysis -->
+        <Exec Condition="'@(ClCompile)' != '' And '$(IsUnitTest)'=='False'" Command="$(PCLINT_ROOT)\LINT-NT.EXE -i&quot;$(PCLINT_ROOT)&quot; -i&quot;$([System.IO.Path]::GetDirectoryName($(PCLINT_SETTING)))&quot; $(PCLINT_SETTING) &quot;$(LintMacros)&quot; $(LintDefines) -i$(IntDir) -pch(stdafx.h) &quot;$(LintProject)&quot;" IgnoreExitCode="yes" />
+        <!-- remove temp file -->
+        <Delete Files="$(ProjectDir)$(LintStdAfx)" Condition="'$(IsUnitTest)'=='False'" />
+    </Target>
+
+    <Choose>
+        <When Condition=" '$(Platform)'=='x64' ">
+            <PropertyGroup>
+                <CppCheckPlatform>win64</CppCheckPlatform>
+            </PropertyGroup>
+        </When>
+        <When Condition=" '$(Platform)'=='win32' ">
+            <Choose>
+                <When Condition=" '$(Characterset)'=='Unicode'">
+                    <PropertyGroup>
+                        <CppCheckPlatform>win32W</CppCheckPlatform>
+                    </PropertyGroup>
+                </When>
+                <When Condition=" '$(Characterset)'=='MultiByte'">
+                    <PropertyGroup>
+                        <CppCheckPlatform>win32W</CppCheckPlatform>
+                    </PropertyGroup>
+                </When>
+                <Otherwise>
+                    <PropertyGroup>
+                        <CppCheckPlatform>win32A</CppCheckPlatform>
+                    </PropertyGroup>
+                </Otherwise>
+            </Choose>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <CppCheckPlatform>native</CppCheckPlatform>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+
+    <Target Name="CppCheck" Condition="'$(BuildCmd)'!='Clean' And Exists('$(CPPCHECK_ROOT)')" AfterTargets="Build" Outputs="$(ProjectDir)$(SQCppCheckReport)" DependsOnTargets="UnitTestCheck">
+        <PropertyGroup>
+          <CppDefines>-D$([System.String]::Copy(&quot;%(ClCompile.PreprocessorDefinitions)&quot;).TrimEnd(';').Replace(&quot;;&quot;,&quot; -D&quot;)) </CppDefines>
+        </PropertyGroup>
+        <Delete Files="$(CppCheckInclude)" Condition="'$(IsUnitTest)'=='False'"/>
+        <WriteLinesToFile Condition="'$(Include)' != '' And '$(CppCheckFast)' != 'true' And '$(IsUnitTest)'=='False'" File="$(CppCheckInclude)" Lines="$(Include.replace(`;`, `%0a`))" Overwrite="false" Encoding="ASCII"/>
+        <WriteLinesToFile Condition="'%(ClCompile.AdditionalIncludeDirectories)' != '' And '$(IsUnitTest)'=='False'" File="$(CppCheckInclude)" Lines="%(ClCompile.AdditionalIncludeDirectories)" Overwrite="false" Encoding="ASCII"/>
+        <WriteLinesToFile Condition="'%(ClCompile.AdditionalIncludeDirectories)' == '' And '$(IsUnitTest)'=='False'" File="$(CppCheckInclude)" Lines="%0a" Overwrite="false" Encoding="ASCII"/>
+        <RemoveLine FilePath='$(CppCheckInclude)' SearchText='..\..\..\boost\include' ContinueOnError='true'/>
+        <RemoveDupLine FilePath='$(CppCheckInclude)' ContinueOnError='true'/>
+        <Exec Condition="'@(ClCompile)' != '' And '$(IsUnitTest)'=='False'" Command="$(CPPCHECK_ROOT)\cppcheck.exe -v -q --platform=$(CppCheckPlatform) --enable=all --xml-version=2 --includes-file=$(CppCheckInclude) $(CppDefines) @(CppFiles->'%(Identity)', ' ') 2&gt;&quot;$(ProjectDir)$(SQCppCheckReport)&quot;" IgnoreExitCode="yes" />
+    </Target>
+
+    <Target Name="Vera" Condition="'$(BuildCmd)'!='Clean' And Exists('$(VERA_ROOT)')" AfterTargets="Build" Outputs="$(ProjectDir)$(SQVeraReport)" DependsOnTargets="UnitTestCheck">
+        <Exec Condition="@(CppFiles)!='' And '$(IsUnitTest)'=='False'" Command="dir /s /B *.c *.cpp *.h *.hpp *.inl *.inc | $(VERA_ROOT)\bin\vera++.exe --root $(VERA_ROOT)\lib\vera++ --profile full --no-duplicate --show-rule --checkstyle-report &quot;$(ProjectDir)$(SQVeraReport)&quot;" ContinueOnError='true' IgnoreExitCode="yes" />
+    </Target>
+
+    <Target Name="Rats" Condition="'$(BuildCmd)'!='Clean' And Exists('$(RATS_ROOT)')" AfterTargets="Build" Outputs="$(ProjectDir)$(SQRatsReport)" DependsOnTargets="UnitTestCheck">
+        <Exec Condition="@(CppFiles)!='' And '$(IsUnitTest)'=='False'" Command="$(RATS_ROOT)\rats.exe -w 3 --xml @(CppFiles->'%(Identity)', ' ') &gt;&quot;$(ProjectDir)$(SQRatsReport)&quot;" Timeout="300000" ContinueOnError='true' IgnoreExitCode="yes" />
+    </Target>
+
+    <Target Name = "UnitTestCheck" AfterTargets="Build">
+        <PropertyGroup>
+            <IsUnitTest>False</IsUnitTest>
+        </PropertyGroup>
+        <PropertyGroup Condition="'$([System.Text.RegularExpressions.Regex]::Match($(ProjectName), $(SQTestPattern)))' != ''">
+            <IsUnitTest>True</IsUnitTest>
+        </PropertyGroup>
+        <Message Text="IsUnitTest = $(IsUnitTest)"/>
+    </Target>
+    
+    <Target Name = "SQEnvCheck" AfterTargets="Build">
+        <Message Text="sonar.log.level               = $(SQLogLevel)"/>
+        <Message Text="sonar.cxx.compiler.reportPath = $(SQCompilerLog)"/>
+        <Message Text="sonar.cxx.compiler.parser     = $(SQCompiler)"/>
+        <Message Text="sonar.cxx.compiler.charset    = $(SQCompilerFF)"/>
+        <Message Text="sonar.cxx.compiler.regex      = $(SQCompilerRegEx)"/>
+        <Message Text="sonar.cxx.cppcheck.reportPath = $(SQCppCheckReport)"/>
+        <Message Text="sonar.cxx.pclint.reportPath   = $(SQPClintReport)"/>
+        <Message Text="sonar.cxx.vera.reportPath     = $(SQVeraReport)"/>
+        <Message Text="sonar.cxx.rats.reportPath     = $(SQRatsReport)"/>
+        <Message Text="sonar.cxx.coverage.reportPath = $(SQCoverageReport)"/>
+        <Message Text="sonar.cxx.vstest.reportPaths  = $(SQTestReport)"/>
+        <Message Text="sonar.cxx.suffixes.sources    = $(SQSourceFiles)"/>
+        <Message Text="sonar.cxx.suffixes.headers    = $(SQHeaderFiles)"/>
+        <Message Text="sonar.cxx.forceIncludes       = $(SQForceInclude)"/>
+        <RemoveDuplicates Inputs="@(ClCompile->'%(AdditionalIncludeDirectories)')">
+            <Output
+                TaskParameter="Filtered"
+                ItemName="FilteredItems"/>
+        </RemoveDuplicates>         
+        <PropertyGroup Label="UserMacros">        
+            <AddIncludes>@(FilteredItems)</AddIncludes>
+            <SQIncludeDirectories Condition="'$(AddIncludes)'!=''">$(IncludePath.TrimEnd(';').replace(';', ',').replace('\','/')),$(AddIncludes.TrimEnd(';').replace(';',',').replace('\','/')),$(SQInclude)</SQIncludeDirectories>
+        <SQIncludeDirectories Condition="'$(AddIncludes)'==''">$(IncludePath.TrimEnd(';').replace(';', ',').replace('\','/')),$(SQInclude)</SQIncludeDirectories>
+        </PropertyGroup>
+        <ItemGroup>
+          <SonarQubeSetting Include="sonar.cxx.includeDirectories">
+            <Value>$(SQIncludeDirectories)</Value>
+          </SonarQubeSetting>
+        </ItemGroup>
+        <Message Text="sonar.cxx.includeDirectories  = $(SQIncludeDirectories)"/>
+    </Target>
+	
+    <PropertyGroup>
+        <MSBuildTaskAssembly Condition="'$(MSBuildToolsVersion)'&lt;'14.0'" >$(MSBuildToolsPath)\Microsoft.Build.Tasks.v$(MSBuildToolsVersion).dll</MSBuildTaskAssembly>
+        <MSBuildTaskAssembly Condition="'$(MSBuildToolsVersion)'&gt;='14.0'" >$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll</MSBuildTaskAssembly>
+    </PropertyGroup>
+
+  <UsingTask TaskName="RemoveLine" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildTaskAssembly)">
+    <ParameterGroup>
+      <!--The file path is the full path to the text file-->
+      <FilePath ParameterType="System.String" Required="true" />
+      <!--The searchText will be removed-->
+      <SearchText ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+        if (System.IO.File.Exists(FilePath))
+        {
+            Log.LogMessage("Remove string '{0}'.", SearchText);
+            var content = string.Empty;
+            using (System.IO.StreamReader reader = new StreamReader(FilePath))
+            {
+                content = reader.ReadToEnd();
+                reader.Close();
+            }
+
+            content = content.Replace(SearchText, "");
+
+            using (System.IO.StreamWriter writer = new StreamWriter(FilePath))
+            {
+                writer.Write(content);
+                writer.Close();
+            }
+        }
+  ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <UsingTask TaskName="RemoveDupLine" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildTaskAssembly)">
+  <ParameterGroup>
+      <!--The file path is the full path to the text file-->
+      <FilePath ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+  if (System.IO.File.Exists(FilePath))
+    {
+    string tempName = System.IO.Path.GetFileNameWithoutExtension(FilePath) + ".bak";
+    System.IO.File.Copy(FilePath, tempName, true);
+    System.IO.File.Delete(FilePath);
+    
+    var sr = new  System.IO.StreamReader(tempName);
+    var sw = new  System.IO.StreamWriter(FilePath);
+    var lines = new System.Collections.Generic.HashSet<int>();
+    while (!sr.EndOfStream)
+    {
+        string line = sr.ReadLine();
+        if (line.Length == 0)
+            continue;
+        int hc = line.GetHashCode();
+        if(lines.Contains(hc))
+            continue;
+
+        lines.Add(hc);
+        sw.WriteLine(line);
+    }
+    sw.Flush();
+    sw.Close();
+    sr.Close();
+    }
+  ]]>
+      </Code>
+    </Task>
+  </UsingTask>  
+ 
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.log.level">
+            <Value>$(SQLogLevel)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.compiler.reportPath">
+            <Value>$(SQCompilerLog)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.compiler.parser">
+            <Value>$(SQCompiler)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.compiler.charset">
+            <Value>$(SQCompilerFF)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.compiler.regex">
+            <Value>$(SQCompilerRegEx)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.cppcheck.reportPath">
+            <Value>$(SQCppCheckReport)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.pclint.reportPath">
+            <Value>$(SQPClintReport)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.vera.reportPath">
+            <Value>$(SQVeraReport)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.rats.reportPath">
+            <Value>$(SQRatsReport)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.coverage.reportPath">
+            <Value>$(SQCoverageReport)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.vstest.reportPaths">
+            <Value>$(SQTestReport)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.suffixes.sources">
+            <Value>$(SQSourceFiles)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.suffixes.headers">
+            <Value>$(SQHeaderFiles)</Value>
+        </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.forceIncludes">
+            <Value>$(SQForceInclude)</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+
+    <ItemGroup>
+        <BuildMacro Include="SQCompiler">
+            <Value>$(SQCompiler)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQProjectFile">
+            <Value>$(SQProjectFile)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro> 
+        <BuildMacro Include="SQCompilerLog">
+            <Value>$(SQCompilerLog)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQCompilerFF">
+            <Value>$(SQCompilerFF)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQCompilerRegEx">
+            <Value>$(SQCompilerRegEx)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQCppCheckReport">
+            <Value>$(SQCppCheckReport)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQPClintReport">
+            <Value>$(SQPClintReport)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQVeraReport">
+            <Value>$(SQVeraReport)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQRatsReport">
+            <Value>$(SQRatsReport)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQCoverageReport">
+            <Value>$(SQCoverageReport)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQTestReport">
+            <Value>$(SQTestReport)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQSourceFiles">
+            <Value>$(SQSourceFiles)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="SQHeaderFiles">
+            <Value>$(SQHeaderFiles)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+        <BuildMacro Include="PCLINT_ROOT">
+            <Value>$(PCLINT_ROOT)</Value>
+            <EnvironmentVariable>true</EnvironmentVariable>
+        </BuildMacro>
+    </ItemGroup>
+</Project>
