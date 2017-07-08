@@ -25,7 +25,11 @@ $List = $Dir | where {$_.extension -eq ".coverage"} |Get-Unique
 if ($List -eq $null) {
   Write-Output  "Cannot find a '.coverage' file using path '$mypath'"
 } else {
-    Write-Output "Create $mypath\MSCoverage.xml"
+  [string] $FileName = "$mypath\MSCoverage.xml"
+  if (Test-Path $FileName) {
+    Remove-Item $FileName
+  }    
+  Write-Output "Create $FileName"
   & "$CoverageTool" analyze /output:MSCoverage.xml $List.FullName
 }
 
