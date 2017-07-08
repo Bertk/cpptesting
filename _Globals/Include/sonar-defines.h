@@ -1,22 +1,12 @@
 #define WIN64 1
 #define WIN32 1
 #define _WIN32 1
-#define VDM_TRACE_IN
-#define VDM_LOG(a,b)
 #define __FUNCTION__ "__func__"
 #define LARGE_INTEGER long
 #define LONGLONG long
 
 #define __declspec(a)
 #define EXP_BUILD_UT 
-
-#define VDM_COPY_INFO_VALUE_SINGLE(a,b,c,d,e)
-#define VDM_COPY_INFO_VALUE_SINGLE_WITH_DEFAULT(a,b,c,d,e,f,g,h)
-#define VDM_COPY_INFO_VALUE_MULTI(a,b,c,d,e)
-#define VDM_CHECK_INFO_VALUE_SINGLE(a,b,c,d,e,f)
-#define VDM_CHECK_INFO_VALUE_MULTI(a,b,c,d,e)
-#define NAMESPACE_VdmTestUI_BEGIN namespace VdmTestUi {
-#define NAMESPACE_VdmTestUI_END }
 
 #define DECLARE_MESSAGE_MAP()
 #define END_MESSAGE_MAP()
