@@ -19,11 +19,13 @@ if(!(Test-Path $CoverageTool)) {
 }
 
 [string] $mypath = Get-Location
-
 $Dir = get-childitem $mypath -recurse 
 $List = $Dir | where {$_.extension -eq ".coverage"} |Get-Unique 
 
-#Write-Output  "$CoverageTool analyze /output:MSCoverage.xml $List.FullName"
-
-& "$CoverageTool" analyze /output:MSCoverage.xml $List.FullName
+if ($List -eq $null) {
+  Write-Output  "Cannot find a '.coverage' file using path '$mypath'"
+} else {
+    Write-Output "Create $mypath\MSCoverage.xml"
+  & "$CoverageTool" analyze /output:MSCoverage.xml $List.FullName
+}
 

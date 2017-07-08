@@ -12,7 +12,7 @@
         <SQPClintReport>pclint-report.xml</SQPClintReport>
         <SQVeraReport>vera-report.xml</SQVeraReport>
         <SQRatsReport>rats-report.xml</SQRatsReport>
-        <SQCoverageReport>$(MSBuildProjectName).coveragexml</SQCoverageReport>
+        <SQCoverageReport>MSCoverage.xml</SQCoverageReport>
         <SQTestReport>$(MSBuildProjectName).trx</SQTestReport>
         <SQTestPattern>.*[ui]Test.*|Test.*|.*Tests?</SQTestPattern>
         <SQSourceFiles>.cc,.cpp,.c,.cu</SQSourceFiles>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup Label="UserMacros">
+		<SQTools>C:\SCA-Tools</SQTools>
+	</PropertyGroup>
+	<ImportGroup Label="PropertySheets">
+		<Import Project="SonarQube.StaticAnalysis.props" Condition="exists('SonarQube.StaticAnalysis.props')" />
+	</ImportGroup>
+	<PropertyGroup Label="UserMacros">
+		<GlobalInclude>$(SolutionDir)_Globals\Include</GlobalInclude>
+	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<AdditionalIncludeDirectories>$(GlobalInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<WarningLevel>Level4</WarningLevel>
+			<UseFullPaths>true</UseFullPaths>
+		</ClCompile>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(SQAnalyze)'=='True' and Exists('$(SQTools)')">
+		<EnablePREfast>True</EnablePREfast>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(SQAnalyze)'=='True' and Exists('$(SQTools)')">
+		<ClCompile>
+			<ForcedIncludeFiles>force.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+		</ClCompile>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<BuildMacro Include="GlobalInclude">
+			<Value>$(GlobalInclude)</Value>
+			<EnvironmentVariable>true</EnvironmentVariable>
+		</BuildMacro>
+	</ItemGroup>
+</Project>
