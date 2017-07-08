@@ -6,7 +6,7 @@
 
 
 
-CMotorController::CMotorController()
+CMotorController::CMotorController() :speed(0), direction(Forward)
 {
 }
 
