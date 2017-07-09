@@ -161,7 +161,7 @@
     <ClCompile Include="unittest1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Source\RootFinder\RootFinder.vcxproj">
+    <ProjectReference Include="..\..\Source\RootFinder\RootFinder.vcxproj">
       <Project>{e383d7ae-a66d-4d28-955a-b401eed86e0d}</Project>
     </ProjectReference>
   </ItemGroup>
