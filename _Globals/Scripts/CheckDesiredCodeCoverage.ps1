@@ -13,15 +13,16 @@ Write-Host "Desired Code Coverage Percent is " -nonewline; Write-Host $desire
 # ([system.reflection.assembly]::loadfile("C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\TestTools\TeamExplorerClient\Microsoft.TeamFoundation.Build.Client.dll")).FullName
 
 
-[string]$TestToolsPath = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\TestTools\TeamExplorerClient"
-if (!(Test-Path $TestToolsPath)) {
-  $TestToolsPath = "C:\agent\externals\vstshost"
-}
+# [string]$TestToolsPath = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\TestTools\TeamExplorerClient"
+# if (!(Test-Path $TestToolsPath)) {
+#   $TestToolsPath = "C:\agent\externals\vstshost"
+# }
+# $env:path += ";$TestToolsPath"
 
-[Reflection.Assembly]::Load("$TestToolsPath\Microsoft.TeamFoundation.Client, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null  
-[Reflection.Assembly]::Load("$TestToolsPath\Microsoft.TeamFoundation.TestManagement.Client, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null
-[Reflection.Assembly]::Load("$TestToolsPath\Microsoft.TeamFoundation.TestManagement.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null
-[Reflection.Assembly]::Load("$TestToolsPath\Microsoft.TeamFoundation.Build.Client,Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null
+[Reflection.Assembly]::Load("Microsoft.TeamFoundation.Client, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null  
+[Reflection.Assembly]::Load("Microsoft.TeamFoundation.TestManagement.Client, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null
+[Reflection.Assembly]::Load("Microsoft.TeamFoundation.TestManagement.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null
+[Reflection.Assembly]::Load("Microsoft.TeamFoundation.Build.Client,Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a") | Out-Null
  
 # Getting a few environment variables we need
 [String] $CollectionUrl = "$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"
