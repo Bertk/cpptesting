@@ -261,6 +261,10 @@ __pycache__/
 *.pyc
 /MSCoverage.xml
 
-/MotorController/cppcheck-report.xml
-/MotorController/CppCheck.bak
-/MotorController/CppCheck.includes
+**/CppCheck.bak
+**/Calculation*/ReadMe.txt
+**/cppcheck-report.xml
+**/CppCheck.includes
+**/MotorController/ReadMe.txt
+**/ReadMe.txt
+*.coveragexml

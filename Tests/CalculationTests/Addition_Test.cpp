@@ -1,8 +1,8 @@
-
+// see http://www.yolinux.com/TUTORIALS/Cpp-GoogleTest.html#EXAMPLE
 #include "stdafx.h"
 #include <limits.h> 
 #include <gtest/gtest.h>
-#include "..\Calculation\Addition.h" 
+#include <Addition.h>
 class AdditionTest : public ::testing::Test {
 
 protected:

@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "CppUnitTest.h"
-#include "../MotorController/MotorController.h"
+#include <CppUnitTest.h>
+#include <MotorController.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

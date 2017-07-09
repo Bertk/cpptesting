@@ -33,3 +33,17 @@ if ($List -eq $null) {
   & "$CoverageTool" analyze /output:MSCoverage.xml $List.FullName
 }
 
+#foreach($projectFile in $projectFiles)
+#{
+#    $project=$projectFile.Directory.Name
+
+#    $buildCommands=$buildCommands+$projectFile.Directory.FullName
+#    $testPoject = //Path//To//Test//Projects
+#    if(Test-Path $testPoject)
+#    {
+#        _Verbose "$testPoject exists for $project"
+#        $testCommand = "$OpenCoverUtil -register:user ""-excludebyfile:*\*.gen.cs"" ""-target:$DnxPath\dnx.exe "" ""-targetargs: $testPoject\project.json test"" ""-output:$Outpath\CS\$project.coverage.xml"" -skipautoprops -returntargetcode -filter:""+[$project*]*"""
+#        _Verbose $testCommand
+#        $testCommands=$testCommands+$testCommand
+#    }
+#}

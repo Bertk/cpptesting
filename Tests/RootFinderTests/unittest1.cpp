@@ -1,8 +1,7 @@
 #include "stdafx.h"
-#include "CppUnitTest.h"
+#include <CppUnitTest.h>
 #include <stdexcept> 
-
-#include "..\RootFinder\RootFinder.h"
+#include <RootFinder.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

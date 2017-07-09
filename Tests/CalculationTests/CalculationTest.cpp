@@ -1,5 +1,5 @@
 // CalculationTest.cpp : Defines the entry point for the console application.
-//
+// see http://www.yolinux.com/TUTORIALS/Cpp-GoogleTest.html#EXAMPLE
 
 #include "stdafx.h"
 #include <limits.h> 
