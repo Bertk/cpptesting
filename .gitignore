@@ -268,3 +268,5 @@ __pycache__/
 **/MotorController/ReadMe.txt
 **/ReadMe.txt
 *.coveragexml
+*.coverage
+
