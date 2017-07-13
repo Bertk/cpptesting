@@ -175,8 +175,8 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
         </RemoveDuplicates>         
         <PropertyGroup Label="UserMacros">        
             <AddIncludes>@(FilteredItems)</AddIncludes>
-            <SQIncludeDirectories Condition="'$(AddIncludes)'!=''">$(IncludePath.TrimEnd(';').replace(';', ',').replace('\','/')),$(AddIncludes.TrimEnd(';').replace(';',',').replace('\','/')),$(SQInclude)</SQIncludeDirectories>
-        <SQIncludeDirectories Condition="'$(AddIncludes)'==''">$(IncludePath.TrimEnd(';').replace(';', ',').replace('\','/')),$(SQInclude)</SQIncludeDirectories>
+            <SQIncludeDirectories Condition="'$(AddIncludes)'!=''">$(IncludePath.TrimEnd(';').replace(';', ',').replace('\','/').TrimEnd(',')),$(AddIncludes.TrimEnd(';').replace(';',',').replace('\','/').TrimEnd(',')),$(SQInclude)</SQIncludeDirectories>
+            <SQIncludeDirectories Condition="'$(AddIncludes)'==''">$(IncludePath.TrimEnd(';').replace(';', ',').replace('\','/').TrimEnd(',')),$(SQInclude)</SQIncludeDirectories>
         </PropertyGroup>
         <ItemGroup>
           <SonarQubeSetting Include="sonar.cxx.includeDirectories">
@@ -293,6 +293,9 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
         <SonarQubeSetting Include="sonar.cxx.coverage.reportPaths">
             <Value>$(SQCoverageReport)</Value>
         </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.coverage.reportPath">
+            <Value>$(SQCoverageReport)</Value>
+        </SonarQubeSetting>        
         <SonarQubeSetting Include="sonar.cxx.vstest.reportPaths">
             <Value>$(SQTestReport)</Value>
         </SonarQubeSetting>
