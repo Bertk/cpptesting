@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RootFinder", "Source\RootFinder\RootFinder.vcxproj", "{E383D7AE-A66D-4D28-955A-B401EED86E0D}"
 EndProject
@@ -12,10 +12,18 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Calculation", "Source\Calculation\Calculation.vcxproj", "{745FA090-C643-4EB9-8F7F-A0202E1B0391}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39F13375-FB2C-4338-B981-D36B2A95AE9E}"
+	ProjectSection(SolutionItems) = preProject
+		_Globals\BuildProps\SCA.props = _Globals\BuildProps\SCA.props
+		_Globals\BuildProps\SonarQube.StaticAnalysis.props = _Globals\BuildProps\SonarQube.StaticAnalysis.props
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CalculationTests", "Tests\CalculationTests\CalculationTests.vcxproj", "{3630D639-E0CD-49CF-9CE6-AAF389217719}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RootFinderTests", "Tests\RootFinderTests\RootFinderTests.vcxproj", "{B70D5C76-1A2E-4699-8C99-0CDD5EE05D1B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SQCxxTestData", "Source\SQCxxTestData\SQCxxTestData.vcxproj", "{D6CF9655-E063-4F39-9401-FB0B77AC3347}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SQCxxTestDataTests", "Tests\SQCxxTestDataTests\SQCxxTestDataTests.vcxproj", "{FA875FDB-0CCD-445E-ACEA-922420670BC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +81,26 @@ Global
 		{B70D5C76-1A2E-4699-8C99-0CDD5EE05D1B}.Release|x64.Build.0 = Release|x64
 		{B70D5C76-1A2E-4699-8C99-0CDD5EE05D1B}.Release|x86.ActiveCfg = Release|Win32
 		{B70D5C76-1A2E-4699-8C99-0CDD5EE05D1B}.Release|x86.Build.0 = Release|Win32
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x64.ActiveCfg = Debug|x64
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x64.Build.0 = Debug|x64
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x86.ActiveCfg = Debug|Win32
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x86.Build.0 = Debug|Win32
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x64.ActiveCfg = Release|x64
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x64.Build.0 = Release|x64
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x86.ActiveCfg = Release|Win32
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x86.Build.0 = Release|Win32
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Debug|x64.ActiveCfg = Debug|x64
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Debug|x64.Build.0 = Debug|x64
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Debug|x64.Deploy.0 = Debug|x64
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Debug|x86.ActiveCfg = Debug|Win32
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Debug|x86.Build.0 = Debug|Win32
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Debug|x86.Deploy.0 = Debug|Win32
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Release|x64.ActiveCfg = Release|x64
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Release|x64.Build.0 = Release|x64
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Release|x64.Deploy.0 = Release|x64
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Release|x86.ActiveCfg = Release|Win32
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Release|x86.Build.0 = Release|Win32
+		{FA875FDB-0CCD-445E-ACEA-922420670BC6}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
