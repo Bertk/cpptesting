@@ -13,6 +13,7 @@
         <SQVeraReport>vera-report.xml</SQVeraReport>
         <SQRatsReport>rats-report.xml</SQRatsReport>
         <SQCoverageReport>$(SolutionDir.Replace('\', '/'))TestResults/**/*.coveragexml</SQCoverageReport>
+        <SQForceZeroCoverage>True</SQForceZeroCoverage>
         <SQTestReport>$(SolutionDir.Replace('\', '/'))TestResults/**/*.trx</SQTestReport>
         <SQTestPattern>.*[ui]Test.*|Test.*|.*Tests?</SQTestPattern>
         <SQSourceFiles>.cc,.cpp,.c,.cu</SQSourceFiles>
@@ -308,6 +309,9 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
         <SonarQubeSetting Include="sonar.cxx.forceIncludes">
             <Value>$(SQForceInclude)</Value>
         </SonarQubeSetting>
+        <SonarQubeSetting Include="sonar.cxx.coverage.forceZeroCoverage">
+          <Value>$(SQForceZeroCoverage)</Value>
+        </SonarQubeSetting>      
     </ItemGroup>
 
     <ItemGroup>
