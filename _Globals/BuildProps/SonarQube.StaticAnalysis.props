@@ -3,7 +3,7 @@
     <PropertyGroup Label="UserMacros">
         <SQLogLevel>INFO</SQLogLevel>
         <SQCompiler>Visual C++</SQCompiler>
-        <SQCompilerLog>$(SolutionDir)$(SolutionFileName).log</SQCompilerLog>
+        <SQCompilerLog>$(SolutionDir)$(SolutionName).log</SQCompilerLog>
         <SQCompilerFF>UTF-8</SQCompilerFF>
         <SQProjectFile>$(MSBuildProjectFullPath.Replace('\', '\\'))</SQProjectFile>
         <!-- regex for VS log file without parallel build parameter "/maxcpucount:xx" -->
