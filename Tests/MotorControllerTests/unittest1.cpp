@@ -67,6 +67,14 @@ namespace MotorControllerTests
           motor.setSpeed(50);
           motor.checkSpeed();
           Assert::AreEqual(true, motor.getLimiter());
+
+          motor.setSpeed(10);
+          motor.checkSpeed();
+          Assert::AreEqual(false, motor.getLimiter());
+
+          motor.setSpeed(20);
+          motor.checkSpeed();
+          Assert::AreEqual(false, motor.getLimiter());
         }
 
     };
