@@ -30,3 +30,33 @@ Direction CMotorController::getDirection()
     return direction;
 }
 
+bool CMotorController::getLimiter()
+{
+  return limiter;
+}
+
+Velocity CMotorController::getVelocity()
+{
+  return Velocity();
+}
+
+
+void CMotorController::checkSpeed()
+{
+  switch (speed)
+  {
+  case 10:
+    limiter = false;
+    velocity = Accelerate;
+    break;
+  case 50:
+    {
+      limiter = true;
+      velocity = Decelerate;
+    }
+    break;
+  default:
+    ;
+
+  }
+}

@@ -12,6 +12,16 @@ namespace Microsoft {
             {
                 return direction == Forward ? L"F" : L"R";
             };
+            template<> static std::wstring ToString<Velocity>(const Velocity& velocity)
+            {
+              return velocity == Accelerate ? L"A" : L"D";
+              //if (velocity == Accelerate)
+              //  return L"A";
+              //if (velocity == Normal)
+              //  return L"N";
+              //if (velocity == Decelerate)
+              //  return L"D";
+            };
         }
     }
 }
@@ -40,6 +50,24 @@ namespace MotorControllerTests
             Assert::AreEqual(Forward, motor.getDirection());
         }
 
+        //TEST_METHOD(getVelocity)
+        //{
+        //  CMotorController motor;
+
+        //  motor.setSpeed(50);
+        //  motor.checkSpeed();
+
+        //  Assert::AreEqual(Decelerate, motor.getVelocity());
+        //}
+
+        TEST_METHOD(getLimiter)
+        {
+          CMotorController motor;
+
+          motor.setSpeed(50);
+          motor.checkSpeed();
+          Assert::AreEqual(true, motor.getLimiter());
+        }
 
     };
 }
