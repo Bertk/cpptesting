@@ -23,8 +23,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RootFinderTests", "Tests\Ro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SQCxxTestData", "Source\SQCxxTestData\SQCxxTestData.vcxproj", "{D6CF9655-E063-4F39-9401-FB0B77AC3347}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SQCxxTestDataTests", "Tests\SQCxxTestDataTests\SQCxxTestDataTests.vcxproj", "{438529AA-49B2-469F-BB33-BF8F64AC56AF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -83,19 +81,16 @@ Global
 		{B70D5C76-1A2E-4699-8C99-0CDD5EE05D1B}.Release|x86.Build.0 = Release|Win32
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x64.ActiveCfg = Debug|x64
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x64.Build.0 = Debug|x64
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x64.Deploy.0 = Debug|x64
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x86.ActiveCfg = Debug|Win32
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x86.Build.0 = Debug|Win32
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Debug|x86.Deploy.0 = Debug|Win32
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x64.ActiveCfg = Release|x64
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x64.Build.0 = Release|x64
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x64.Deploy.0 = Release|x64
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x86.ActiveCfg = Release|Win32
 		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x86.Build.0 = Release|Win32
-		{438529AA-49B2-469F-BB33-BF8F64AC56AF}.Debug|x64.ActiveCfg = Debug|x64
-		{438529AA-49B2-469F-BB33-BF8F64AC56AF}.Debug|x64.Build.0 = Debug|x64
-		{438529AA-49B2-469F-BB33-BF8F64AC56AF}.Debug|x86.ActiveCfg = Debug|Win32
-		{438529AA-49B2-469F-BB33-BF8F64AC56AF}.Release|x64.ActiveCfg = Release|x64
-		{438529AA-49B2-469F-BB33-BF8F64AC56AF}.Release|x64.Build.0 = Release|x64
-		{438529AA-49B2-469F-BB33-BF8F64AC56AF}.Release|x86.ActiveCfg = Release|Win32
-		{438529AA-49B2-469F-BB33-BF8F64AC56AF}.Release|x86.Build.0 = Release|Win32
+		{D6CF9655-E063-4F39-9401-FB0B77AC3347}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
