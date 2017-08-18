@@ -6,7 +6,7 @@
 
 
 
-CMotorController::CMotorController() :speed(0), direction(Forward)
+CMotorController::CMotorController() :speed(0), direction(Forward), limiter(false), velocity(Decelerate)
 {
 }
 
