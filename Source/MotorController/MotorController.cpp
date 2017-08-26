@@ -5,6 +5,10 @@
 #include "MotorController.h"
 
 
+constexpr int factorial(int n)
+{
+  return n <= 1 ? 1 : (n * factorial(n - 1));
+}
 
 CMotorController::CMotorController() :speed(0), direction(Forward), limiter(false), velocity(Decelerate)
 {
@@ -56,7 +60,7 @@ void CMotorController::checkSpeed()
     }
     break;
   default:
-    ;
+    factorial(4);
 
   }
 }
