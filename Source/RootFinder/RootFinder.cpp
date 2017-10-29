@@ -20,7 +20,7 @@ double CRootFinder::SquareRoot(double v)
     double diff = v;
     while (diff > result / 1000)
     {
-        double oldResult = result;
+        const double oldResult = result;
         result = result - (result*result - v) / (2 * result);
         diff = fabs(oldResult - result);
     }

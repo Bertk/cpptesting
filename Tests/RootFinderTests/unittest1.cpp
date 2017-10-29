@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <CppUnitTest.h>
-#include <stdexcept> 
+#include <stdexcept>
+#include <cstdio>
 #include <RootFinder.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -55,7 +56,7 @@ namespace CRootFinderTest
                     // Should raise an exception:  
                     double result = rooter.SquareRoot(v);
 
-                    _swprintf(message, L"No exception for input %g", v);
+                    swprintf_s(message, 200, L"No exception for input %g", v);
                     Assert::Fail(message, LINE_INFO());
                 }
                 catch (std::out_of_range ex)
@@ -64,7 +65,7 @@ namespace CRootFinderTest
                 }
                 catch (...)
                 {
-                    _swprintf(message, L"Incorrect exception for %g", v);
+                    swprintf_s(message, 200, L"Incorrect exception for %g", v);
                     Assert::Fail(message, LINE_INFO());
                 }
             }

@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.filters
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -270,3 +271,6 @@ __pycache__/
 *.coveragexml
 *.coverage
 
+# SonarLint 
+.sonarlint/
+sonarlint.json

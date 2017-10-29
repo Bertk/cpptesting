@@ -8,11 +8,11 @@ namespace Microsoft {
     namespace VisualStudio {
         namespace CppUnitTestFramework
         {
-            template<> static std::wstring ToString<Direction>(const Direction& direction)
+            template<> std::wstring ToString<Direction>(const Direction& direction)
             {
                 return direction == Forward ? L"F" : L"R";
             };
-            template<> static std::wstring ToString<Velocity>(const Velocity& velocity)
+            template<> std::wstring ToString<Velocity>(const Velocity& velocity)
             {
               return velocity == Accelerate ? L"A" : L"D";
               //if (velocity == Accelerate)
