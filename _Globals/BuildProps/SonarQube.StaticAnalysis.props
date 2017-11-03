@@ -14,7 +14,7 @@
         <SQRatsReport>rats-report.xml</SQRatsReport>
         <SQCoverageReport>$(SolutionDir.Replace('\', '/'))TestResults/**/*.coveragexml</SQCoverageReport>
         <SQForceZeroCoverage>True</SQForceZeroCoverage>
-        <SQTestReport>$(SolutionDir.Replace('\', '/'))TestResults/**/*.trx</SQTestReport>
+        <SQTestReport>$(SolutionDir.Replace('\', '/'))TestResults/*.trx</SQTestReport>
         <SQTestPattern>.*[ui]Test.*|Test.*|.*Tests?</SQTestPattern>
         <SQSourceFiles>.cc,.cpp,.c,.cu</SQSourceFiles>
         <SQHeaderFiles>.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc</SQHeaderFiles>
@@ -165,7 +165,6 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
         <Message Text="sonar.cxx.vera.reportPath     = $(SQVeraReport)"/>
         <Message Text="sonar.cxx.rats.reportPath     = $(SQRatsReport)"/>
         <Message Text="sonar.cxx.coverage.reportPath = $(SQCoverageReport)"/>
-        <Message Text="sonar.cxx.vstest.reportPaths  = $(SQTestReport)"/>
         <Message Text="sonar.cxx.suffixes.sources    = $(SQSourceFiles)"/>
         <Message Text="sonar.cxx.suffixes.headers    = $(SQHeaderFiles)"/>
         <Message Text="sonar.cxx.forceIncludes       = $(SQForceInclude)"/>
@@ -296,9 +295,6 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
         </SonarQubeSetting>
         <SonarQubeSetting Include="sonar.cxx.coverage.reportPath">
             <Value>$(SQCoverageReport)</Value>
-        </SonarQubeSetting>        
-        <SonarQubeSetting Include="sonar.cxx.vstest.reportPaths">
-            <Value>$(SQTestReport)</Value>
         </SonarQubeSetting>
         <SonarQubeSetting Include="sonar.cxx.suffixes.sources">
             <Value>$(SQSourceFiles)</Value>
@@ -353,10 +349,6 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
         </BuildMacro>
         <BuildMacro Include="SQCoverageReport">
             <Value>$(SQCoverageReport)</Value>
-            <EnvironmentVariable>true</EnvironmentVariable>
-        </BuildMacro>
-        <BuildMacro Include="SQTestReport">
-            <Value>$(SQTestReport)</Value>
             <EnvironmentVariable>true</EnvironmentVariable>
         </BuildMacro>
         <BuildMacro Include="SQSourceFiles">
