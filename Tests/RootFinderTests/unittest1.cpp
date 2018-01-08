@@ -12,13 +12,6 @@ namespace CRootFinderTest
     {
     public:
         
-        //TEST_METHOD(TestMethod1)
-        //{
-        //    // Run a function under test here.  
-        //    Assert::AreEqual(1,1);
-
-        //}
-
         TEST_METHOD(BasicTest)
         {
             CRootFinder rooter;
@@ -72,4 +65,4 @@ namespace CRootFinderTest
         }
 
     };
-}
+};

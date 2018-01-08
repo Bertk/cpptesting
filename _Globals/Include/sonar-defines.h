@@ -100,4 +100,11 @@
 #define __align__(a)
 #define __launch_bounds__(a)
 
+// Test macros CppUnitTest
+#define TEST_METHOD(a) void a()
+#define TEST_CLASS(className) class className
+
+// Test macros gtest
+//#define TEST_F(test_case_name, test_name) void test_case_name##_##test_name##_Test()
+//#define EXPECT_EQ(val1, val2) ASSERT(val1 != val2)
 

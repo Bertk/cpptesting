@@ -274,3 +274,4 @@ __pycache__/
 # SonarLint 
 .sonarlint/
 sonarlint.json
+_Globals/BuildProps/utest.props
