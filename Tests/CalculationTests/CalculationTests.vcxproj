@@ -106,6 +106,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>Calculation.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
