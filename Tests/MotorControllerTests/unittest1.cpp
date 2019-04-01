@@ -32,8 +32,6 @@ namespace MotorControllerTests
     TEST_CLASS(MotorControllerTest)
     {
     public:
-        
-    public:
         TEST_METHOD(getSpeed)
         {
             CMotorController motor;
