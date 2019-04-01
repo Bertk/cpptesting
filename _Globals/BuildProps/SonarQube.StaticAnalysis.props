@@ -7,7 +7,7 @@
     <SQCompilerFF>UTF-8</SQCompilerFF>
     <SQProjectFile>$(MSBuildProjectFullPath.Replace('\', '\\'))</SQProjectFile>
     <!-- regex for vNext log file with parallel build parameter "/maxcpucount:m" -->
-    <SQCompilerRegEx>^\d+-\d+-\d+T\d+:\d+:\d+\.\d+Z\x20+\d+>(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20([^\[]+)[$(SQProjectFile)\]$</SQCompilerRegEx>
+    <SQCompilerRegEx>^\d+-\d+-\d+T\d+:\d+:\d+\.\d+Z\x20+\d+>(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20([^\[]+)\[$(SQProjectFile)\]$</SQCompilerRegEx>
     <SQCppCheckReport>cppcheck-report.xml</SQCppCheckReport>
     <SQPClintReport>pclint-report.xml</SQPClintReport>
     <SQVeraReport>vera-report.xml</SQVeraReport>
