@@ -298,7 +298,7 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
       <Value>$(SQForceInclude)</Value>
     </SonarQubeSetting>
     <SonarQubeSetting Include="sonar.cxx.errorRecoveryEnabled">
-      <Value>false</Value>
+      <Value>true</Value>
     </SonarQubeSetting>
   </ItemGroup>
 
