@@ -1,0 +1,94 @@
+resources:
+- repo: self
+  clean: true
+queue:
+  name: Default
+  demands: 
+  - msbuild
+  - visualstudio
+  - vstest
+  - java
+
+steps:
+- task: SonarSource.sonarqube.15B84CA1-B62F-4A2A-A403-89B77A063157.SonarQubePrepare@4
+  displayName: 'Prepare the SonarQube analysis'
+  inputs:
+    SonarQube: SonarQube
+
+    projectKey: CppTest
+
+    projectName: CppTest
+
+    extraProperties: |
+     # Additional properties that will be passed to the scanner, 
+     # Put one key=value per line, example:
+     # sonar.exclusions=**/*.bin
+     sonar.cxx.vstest.reportsPaths="$(Build.Repository.LocalPath)/TestResults/*.trx" 
+     sonar.log.level=DEBUG
+
+
+- task: VSBuild@1
+  displayName: 'Build solution CppTesting.sln'
+  inputs:
+    solution: CppTesting.sln
+
+    vsVersion: 15.0
+
+    msbuildArgs: '/p:WarningLevel=4 /fileLoggerParameters:Verbosity:Normal;Encoding=UTF-8'
+
+    platform: x86
+
+    configuration: Debug
+
+    maximumCpuCount: true
+
+    createLogFile: true
+
+    continueOnError: true
+
+- task: VSTest@2
+  displayName: 'VsTest - run all tests (gTest and MSTest)'
+  inputs:
+    testAssemblyVer2: |
+     **\*Tests.dll
+     **\*Tests.exe
+     !**\obj\**
+
+    vsTestVersion: 15.0
+
+    runSettingsFile: CodeCoverage.runsettings
+
+    codeCoverageEnabled: true
+
+    otherConsoleOptions: '/UseVsixExtensions:true'
+
+    testRunTitle: CppTesting
+
+    platform: 'x86 debug'
+
+    configuration: 'x86 debug'
+
+  continueOnError: true
+
+- task: SonarSource.sonarqube.6D01813A-9589-4B15-8491-8164AEB38055.SonarQubeAnalyze@4
+  displayName: 'Complete the SonarQube analysis'
+
+
+- task: SonarSource.sonarqube.291ed61f-1ee4-45d3-b1b0-bf822d9095ef.SonarQubePublish@4
+  displayName: 'Publish Analysis Result'
+
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    Contents: |
+     **\*.coveragexml
+     **\*.trx
+
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+
+
