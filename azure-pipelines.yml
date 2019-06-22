@@ -9,6 +9,10 @@ queue:
   - vstest
   - java
 
+  variables:
+    configuration: debug
+    platform: x86
+
 steps:
 - task: SonarSource.sonarqube.15B84CA1-B62F-4A2A-A403-89B77A063157.SonarQubePrepare@4
   displayName: 'Prepare the SonarQube analysis'
@@ -32,13 +36,13 @@ steps:
   inputs:
     solution: CppTesting.sln
 
-    vsVersion: 15.0
+    vsVersion: 16.0
 
     msbuildArgs: '/p:WarningLevel=4 /fileLoggerParameters:Verbosity:Normal;Encoding=UTF-8'
 
-    platform: x86
+    platform: $(platform)
 
-    configuration: Debug
+    configuration: $(configuration)
 
     maximumCpuCount: true
 
@@ -54,13 +58,13 @@ steps:
      **\*Tests.exe
      !**\obj\**
 
-    vsTestVersion: 15.0
+    vsTestVersion: 16.0
 
     runSettingsFile: CodeCoverage.runsettings
 
     codeCoverageEnabled: true
 
-    otherConsoleOptions: '/UseVsixExtensions:true'
+    pathtoCustomTestAdapters: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\Extensions\pemwd5jw.szc'
 
     testRunTitle: CppTesting
 

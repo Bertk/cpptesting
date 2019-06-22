@@ -1,5 +1,7 @@
 // see http://www.yolinux.com/TUTORIALS/Cpp-GoogleTest.html#EXAMPLE
-#include "stdafx.h"
+#include "targetver.h"
+#include <stdio.h>
+#include <tchar.h>
 #include <limits.h> 
 #include <gtest/gtest.h>
 #include "..\Calculation\Multiply.h" 
