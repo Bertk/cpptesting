@@ -9,10 +9,6 @@ queue:
   - vstest
   - java
 
-  variables:
-    configuration: debug
-    platform: x86
-
 steps:
 - task: SonarSource.sonarqube.15B84CA1-B62F-4A2A-A403-89B77A063157.SonarQubePrepare@4
   displayName: 'Prepare the SonarQube analysis'
@@ -40,9 +36,9 @@ steps:
 
     msbuildArgs: '/p:WarningLevel=4 /fileLoggerParameters:Verbosity:Normal;Encoding=UTF-8'
 
-    platform: $(platform)
+    platform: x86
 
-    configuration: $(configuration)
+    configuration: Debug
 
     maximumCpuCount: true
 
